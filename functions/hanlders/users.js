@@ -24,7 +24,7 @@ exports.signUp = (req, res) => {
     errors.confirmPassword = "Password Must Match";
   }
   if (isEmpty(handle)) {
-    errors.password = "Must not be empty";
+    errors.handle = "Must not be empty";
   }
   //let valid = Object.keys(errors) === 0 ? true : false;
   if (Object.keys(errors).length > 0) {
@@ -113,7 +113,14 @@ exports.logIn = (req, res) => {
     })
     .catch(err => {
       if (err.code === "auth/wrong-password") {
-        return res.status(403).json({ general: "Invalid credentials " });
+        return res
+          .status(403)
+          .json({ general: "Invalid credentials please try again" });
+      }
+      if (err.code === "auth/user-not-found") {
+        return res
+          .status(403)
+          .json({ general: "Invalid credentials, please try again" });
       }
       console.log(err);
       return res.status(500).json({ error: err.code });

@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const { db } = require("./utils/admin");
+const cors = require("cors");
 const {
   getAllScreams,
   postOneScream,
@@ -22,6 +23,7 @@ const {
 const { fbAuth } = require("./middleware/fbAuth");
 
 const app = express();
+app.use(cors());
 
 //getting the screams
 app.get("/screams", getAllScreams);
